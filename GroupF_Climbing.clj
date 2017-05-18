@@ -15,14 +15,14 @@
      (isa location box)
      (climbable platform)
      (climbable box)
-     (holds nil agent) ;This might fuck up because nil is a thing. Does it need to be !not
+     (holds nil agent) ;Change this to box for different searches
      (at floor agent)
      (on floor box)
      (at floor platform1)
      (at floor platform2)
      })
 
-(ops-search world-state-1 '((holds box agent)) ops)
+;(ops-search world-state-1 '((holds box agent)) ops)   Testings stuff
 
 (def ops
   '{move
@@ -45,9 +45,9 @@
      :del ((on ?location ?obj)
             (holds nil agent))
      :add ((holds ?obj agent))
-     :txt (pick-up object at ?location)
+     :txt (pick-up ?obj at )
     }
-    drop
+    drop ;Drops onto floor only
     {:pre
           ((at floor agent)
             (holds ?obj agent)
@@ -55,43 +55,42 @@
      :del ((holds ?obj agent))
      :add ((holds nil agent)
             (on floor ?obj))
-     :txt (drop ?obj on floor)
+     :txt (drop ?obj on ?location)
   }
     climb-on
     {:pre
-          ((next-to ?location agent)
-            (climable ?location))
-     :del ((next-to ?location agent)
+          ((next-to ?location agent) ;Need to figure out the syntax to get an agent to climb on
+            (climable ?location))    ;First needs to move then be next-to
+     :del ((next-to ?location agent) ;From there the climb on can be used so in the search does it need to be (on ?location agent)
             (at floor agent))
-     :add ((at ?location agent))
+     :add ((on ?location agent))
      :txt (climb-on agent on top of ?location)
    }
     climb-off
     {:pre
           (
-            (on ?platform agent))
-     :del ((on ?platform agent))
+            (on ?location agent))
+     :del ((on ?location agent))
      :add ((on floor agent)
-            (next-to ?platform ?agent))
-     :txt (climb-off ?platform onto ?floor)
+            (next-to ?location agent)) ;Platform
+     :txt (climb-off ?location onto ?floor)
    }
-    pick-off
+    pick-off ;Drops onto platform only
     {:pre
-          ((agent ?agent)
-            (on ?platform ?agent)
+          ((on ?platform agent)
             (on ?platform ?obj)
             (manipulable ?obj)
-            (holds nil ?agent))
-     :del ((holds nil ?agent)
+            (holds nil agent))
+     :del ((holds nil agent)
             (on ?platform ?obj))
      :add ((holds ?obj ?agent)
-            (:not (on ?platform ?obj)))
+            (:not (on ?platform ?obj))) ;Should be platform or location?
      :txt (pick-off ?obj from ?platform)
      }
-    drop-on
+    drop-on ;This one needs looking at again
     {:pre
           (
-            (on ?platform ?agent)
+            (on ?location agent)
             (isa platform ?platform)
             (:not (on ?platform ?obj))
             (hold ?obj ?agent))
@@ -101,9 +100,4 @@
             (on ?platform ?obj))}
     })
 
-;(defn apply-op
-;  [state {:keys [pre add del]}]
-;  (mfind* [pre state]
-;          (union (mout add)
-;                 (difference state (mout del))
-;                 )))
+
