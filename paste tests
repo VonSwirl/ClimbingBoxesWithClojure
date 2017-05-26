@@ -7,6 +7,7 @@
 (ops-search world-state-1 '((on platform2 box)) ops)
 (ops-search world-state-1 '((on floor box)) ops)
 (ops-search world-state-1 '((at floor agent)) ops)
+
 (ops-search world-state-2 '((holds box agent)) ops)
 (ops-search world-state-2 '((next-to platform1 agent)) ops)
 (ops-search world-state-2 '((next-to platform2 agent)) ops)
@@ -16,6 +17,7 @@
 (ops-search world-state-2 '((on platform2 box)) ops)
 (ops-search world-state-2 '((on floor box)) ops)
 (ops-search world-state-2 '((at floor agent)) ops)
+
 (ops-search world-state-3 '((holds box agent)) ops)
 (ops-search world-state-3 '((next-to platform1 agent)) ops)
 (ops-search world-state-3 '((next-to platform2 agent)) ops)
@@ -25,3 +27,13 @@
 (ops-search world-state-3 '((on platform2 box)) ops)
 (ops-search world-state-3 '((on floor box)) ops)
 (ops-search world-state-3 '((at floor agent)) ops)
+
+(ops-search world-state-4 '((holds box agent)) ops)
+(ops-search world-state-4 '((next-to platform1 agent)) ops)
+(ops-search world-state-4 '((next-to platform2 agent)) ops)
+(ops-search world-state-4 '((on-top platform1 agent)) ops)
+(ops-search world-state-4 '((on-top platform2 agent)) ops)
+(ops-search world-state-4 '((on platform1 box)) ops)
+(ops-search world-state-4 '((on platform2 box)) ops)
+(ops-search world-state-4 '((on floor box)) ops)
+(ops-search world-state-4 '((at floor agent)) ops)
